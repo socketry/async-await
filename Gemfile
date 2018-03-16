@@ -4,7 +4,7 @@ gemspec
 
 group :development do
 	gem 'pry'
-	gem 'async-io'
+	gem 'async-io', "~> 1.4"
 end
 
 group :test do

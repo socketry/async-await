@@ -4,6 +4,7 @@ gemspec
 
 group :development do
 	gem 'pry'
+	gem 'async-io'
 end
 
 group :test do

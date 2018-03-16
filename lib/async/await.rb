@@ -18,11 +18,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require "async/await/version"
+require_relative 'await/version'
+require_relative 'await/methods'
 
 module Async
-	def self.await(&block)
-		# Initial "blocking" implementation
-		yield
+	module Await
+		def self.included(klass)
+			klass.include(Methods)
+			klass.extend(self)
+		end
+		
+		def async(name)
+			original_method = self.instance_method(name)
+			
+			define_method(name) do |*args|
+				Async::Reactor.run do |task|
+					original_method.bind(self).call(*args)
+				end
+			end
+		end
 	end
 end

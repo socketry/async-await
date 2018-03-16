@@ -21,13 +21,17 @@
 require 'async/await'
 
 RSpec.describe Async::Await do
-	it "should execute block" do
-		order = ''
+	include Async::Await
+	
+	async def find_chicken(*areas)
+		sleep(rand)
 		
-		Async.await do
-			order += 'A'
-		end
+		return areas.sample
+	end
+	
+	it "should find some chickens" do
+		result = find_chicken("house").wait
 		
-		expect(order) == 'A'
+		expect(result).to be == "house"
 	end
 end

@@ -1,4 +1,4 @@
-# Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2018, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'async/reactor'
+
 module Async
 	module Await
-		VERSION = "0.1.0"
+		module Methods
+			def sleep(*args)
+				Async::Task.current.sleep(*args)
+			end
+
+			def await(&block)
+				block.call.wait
+			end
+
+			def barrier!
+				Async::Task.current.children.each(&:wait)
+			end
+		end
 	end
 end

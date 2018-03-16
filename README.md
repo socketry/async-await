@@ -31,9 +31,6 @@ In any asynchronous context (e.g. a reactor), simply use the `await` function li
 ```ruby
 require 'async/await'
 
-
-require_relative '../lib/async/await'
-
 class Coop
 	include Async::Await
 	

@@ -29,7 +29,9 @@ module Async
 		end
 		
 		def async(name)
-			original_method = self.instance_method(name)
+			original_method = instance_method(name)
+			
+			remove_method(name)
 			
 			define_method(name) do |*args|
 				Async::Reactor.run do |task|

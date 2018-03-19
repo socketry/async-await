@@ -23,16 +23,20 @@ require 'async/reactor'
 module Async
 	module Await
 		module Methods
-			def sleep(*args)
-				Async::Task.current.sleep(*args)
+			extend Forwardable
+
+			def task
+				Async::Task.current
 			end
+
+			def_delegators :task, :timeout, :sleep, :async
 
 			def await(&block)
 				block.call.wait
 			end
 
 			def barrier!
-				Async::Task.current.children.each(&:wait)
+				task.children.each(&:wait)
 			end
 		end
 	end

@@ -1,12 +1,14 @@
 
 require_relative '../lib/async/await'
 
-class Sleepy
+class << self
 	include Async::Await
 	
 	async def sort_one(item, into)
-		sleep(item)
+		sleep(item.to_f)
 		into << item
+		
+		puts "I've sorted #{item} for you."
 	end
 	
 	async def sort(items)
@@ -16,6 +18,7 @@ class Sleepy
 			sort_one(item, result)
 		end
 		
+		# Wait until all previous async method calls have finished executing.
 		barrier!
 		
 		return result
@@ -23,5 +26,4 @@ class Sleepy
 end
 
 puts "Hold on, sorting..."
-sleepy = Sleepy.new
-puts sleepy.sort([5, 2, 3, 4, 9, 2, 5, 7, 8]).result.inspect
+puts sort([5, 2, 3, 4, 9, 2, 5, 7, 8]).result.inspect

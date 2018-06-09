@@ -80,7 +80,6 @@ func (ps *PortScanner) Start(start, stop int, timeout time.Duration) {
 			if err == nil {
 				break
 			}
-			fmt.Println("nope")
 		}
 
 		wg.Add(1)
@@ -102,5 +101,5 @@ func main() {
 	ps := NewPortScanner("127.0.0.1", Ulimit())
 
 	// Start scanning all the ports on localhost.
-	ps.Start(1, 65535, 500*time.Millisecond)
+	ps.Start(1, 1024, 500*time.Millisecond)
 }

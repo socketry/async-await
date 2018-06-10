@@ -1,6 +1,8 @@
+#!/usr/bin/env ruby
+
 require 'async/io'
-require 'async/await'
 require 'async/semaphore'
+require_relative '../../lib/async/await'
 
 class PortScanner
   include Async::Await
@@ -9,7 +11,8 @@ class PortScanner
   def initialize(host: '0.0.0.0', ports:)
     @host      = host
     @ports     = ports
-    @semaphore = Async::Semaphore.new(`ulimit -n`.to_i)
+    limits = Process.getrlimit(Process::RLIMIT_NOFILE)
+    @semaphore = Async::Semaphore.new(limits.first)
   end
 
   def scan_port(port, timeout: 0.5)
@@ -35,6 +38,6 @@ class PortScanner
   end
 end
 
-scanner = PortScanner.new(ports: (1..1024))
+scanner = PortScanner.new(ports: (1..65536))
 
 scanner.start

@@ -22,11 +22,10 @@ class PortScanner
         puts "#{port} open"
       end
     end
-  rescue Errno::ECONNREFUSED, Async::TimeoutError
+  rescue Errno::ECONNREFUSED
     puts "#{port} closed"
-  rescue Errno::EMFILE
-    sleep timeout
-    retry 
+  rescue Async::TimeoutError
+    puts "#{port} timeout"
   end
 
   async def start(timeout: 0.5)

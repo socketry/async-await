@@ -12,7 +12,7 @@ class PortScanner
     @host      = host
     @ports     = ports
     limits = Process.getrlimit(Process::RLIMIT_NOFILE)
-    @semaphore = Async::Semaphore.new((limits.first * 0.9).ceil)
+    @semaphore = Async::Semaphore.new(1024)
   end
 
   def scan_port(port, timeout)

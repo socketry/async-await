@@ -12,14 +12,14 @@ class PortScanner
     @host      = host
     @ports     = ports
     limits = Process.getrlimit(Process::RLIMIT_NOFILE)
-    @semaphore = Async::Semaphore.new(limits.first)
+    @semaphore = Async::Semaphore.new((limits.first * 0.9).ceil)
   end
 
-  def scan_port(port, timeout: 0.5)
+  def scan_port(port, timeout)
     timeout(timeout) do 
       Async::IO::Endpoint.tcp(@host, port).connect do |peer|
-        peer.close 
         puts "#{port} open"
+        peer.close
       end
     end
   rescue Errno::ECONNREFUSED
@@ -28,15 +28,15 @@ class PortScanner
     puts "#{port} timeout"
   end
 
-  async def start(timeout: 0.5)
+  async def start(timeout = 0.5)
     @ports.map do |port|
       @semaphore.async do
-        scan_port(port, timeout: timeout)
+        scan_port(port, timeout)
       end
     end.collect(&:result)
   end
 end
 
-scanner = PortScanner.new(ports: (1..65536))
+scanner = PortScanner.new(ports: (1...65536))
 
 scanner.start

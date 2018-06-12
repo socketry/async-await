@@ -8,15 +8,59 @@ A simple `connect`-based port scanner. It scans locahost for all open ports.
 
 	$ go get golang.org/x/sync/semaphore
 	$ go build port_scanner.go
-	$ ./port_scanner
+	$ time ./port_scanner
+	22 open
+	139 open
+	445 open
+	3306 open
+	5355 open
+	5432 open
+	6379 open
+	9293 open
+	9292 open
+	9516 open
+	9515 open
+	12046 open
+	12813 open
+	./port_scanner  1.70s user 1.18s system 503% cpu 0.572 total
 
 ### Python
 
 	$ ./port_scanner.py
+	5355 open
+	5432 open
+	3306 open
+	39610 open
+	58260 open
+	12813 open
+	139 open
+	445 open
+	12046 open
+	22 open
+	9292 open
+	9293 open
+	9515 open
+	9516 open
+	6379 open
+	./port_scanner.py  11.41s user 0.88s system 98% cpu 12.485 total
 
 ### Ruby
 
 	$ ./port_scanner.rb
+	22 open
+	139 open
+	445 open
+	3306 open
+	5432 open
+	5355 open
+	6379 open
+	9516 open
+	9515 open
+	9293 open
+	9292 open
+	12046 open
+	12813 open
+	./port_scanner.rb  5.99s user 1.18s system 95% cpu 7.543 total
 
 ## Notes
 

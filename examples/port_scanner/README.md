@@ -6,6 +6,8 @@ A simple `connect`-based port scanner. It scans locahost for all open ports.
 
 ### Go
 
+Go is pretty awesome, because when the operation would not block, it runs sequentially in the same thread. Go spins up threads and delegates work across available CPU cores.
+
 	$ go get golang.org/x/sync/semaphore
 	$ go build port_scanner.go
 	$ time ./port_scanner
@@ -26,6 +28,8 @@ A simple `connect`-based port scanner. It scans locahost for all open ports.
 
 ### Python
 
+Python was the slowest. This is possibly due to the implementation of semaphore. It creates all 65,535 tasks, and then most of them block on the semaphore.
+
 	$ ./port_scanner.py
 	5355 open
 	5432 open
@@ -45,6 +49,8 @@ A simple `connect`-based port scanner. It scans locahost for all open ports.
 	./port_scanner.py  11.41s user 0.88s system 98% cpu 12.485 total
 
 ### Ruby
+
+Ruby performance isn't that bad. It's only about half as fast as Go, considering that Go runs across all cores, while the Ruby implementation is limited to one core.
 
 	$ ./port_scanner.rb
 	22 open

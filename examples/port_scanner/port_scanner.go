@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"golang.org/x/sync/semaphore"
 	"net"
-	"os/exec"
-	"strconv"
+	"syscall"
 	"strings"
 	"sync"
 	"time"
@@ -20,27 +19,26 @@ type PortScanner struct {
 }
 
 // Provides a simple wrapper to initializing a PortScanner.
-func NewPortScanner(ip string, limit int64) *PortScanner {
+func NewPortScanner(ip string, limit uint64) *PortScanner {
 	return &PortScanner{
 		ip:   "127.0.0.1",
-		lock: semaphore.NewWeighted(limit),
+		lock: semaphore.NewWeighted(int64(limit)),
 	}
 }
 
-// Returns the output from the ulimit builtin shell command for the
-// maximum number of open connections, used to limit the number
-// of concurrent port scans.
-func Ulimit() int64 {
-	out, err := exec.Command("ulimit", "-n").Output()
+// Compute the maximum number of files we can open.
+func FileLimit(max uint64) uint64 {
+	var rlimit syscall.Rlimit
+	err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rlimit)
 	if err != nil {
 		panic(err)
 	}
-	s := strings.TrimSpace(string(out))
-	i, err := strconv.ParseInt(s, 10, 64)
-	if err != nil {
-		panic(err)
+	
+	if (max < rlimit.Cur) {
+		return max
 	}
-	return i
+	
+	return rlimit.Cur
 }
 
 // As the name might suggest, this function checks if a given port
@@ -51,8 +49,7 @@ func checkPortOpen(ip string, port int, timeout time.Duration) {
 
 	if err != nil {
 		if strings.Contains(err.Error(), "socket") {
-			time.Sleep(500 * time.Millisecond)
-			checkPortOpen(ip, port, timeout)
+			fmt.Println(port, "timeout")
 		} else {
 			fmt.Println(port, "closed")
 		}
@@ -97,9 +94,11 @@ func (ps *PortScanner) Start(start, stop int, timeout time.Duration) {
 // This function kicks off the whole shindig' and provides a
 // basic example of the internal API usage.
 func main() {
+	batch_size := FileLimit(512)
+	
 	// Create a new PortScanner for localhost.
-	ps := NewPortScanner("127.0.0.1", Ulimit())
+	ps := NewPortScanner("0.0.0.0", batch_size)
 
 	// Start scanning all the ports on localhost.
-	ps.Start(1, 1024, 500*time.Millisecond)
+	ps.Start(1, 65535, 1000*time.Millisecond)
 }

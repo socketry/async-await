@@ -8,11 +8,10 @@ class PortScanner
   include Async::Await
   include Async::IO
 
-  def initialize(host: '0.0.0.0', ports:)
+  def initialize(host: '0.0.0.0', ports:, batch_size: 1024)
     @host      = host
     @ports     = ports
-    limits = Process.getrlimit(Process::RLIMIT_NOFILE)
-    @semaphore = Async::Semaphore.new(1024)
+    @semaphore = Async::Semaphore.new(batch_size)
   end
 
   def scan_port(port, timeout)
@@ -28,7 +27,7 @@ class PortScanner
     puts "#{port} timeout"
   end
 
-  async def start(timeout = 0.5)
+  async def start(timeout = 1.0)
     @ports.map do |port|
       @semaphore.async do
         scan_port(port, timeout)
@@ -37,6 +36,9 @@ class PortScanner
   end
 end
 
-scanner = PortScanner.new(ports: (1...65536))
+limits = Process.getrlimit(Process::RLIMIT_NOFILE)
+batch_size = [512, limits.first].min
+
+scanner = PortScanner.new(ports: (1...65536), batch_size: batch_size)
 
 scanner.start

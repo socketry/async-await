@@ -21,7 +21,7 @@ type PortScanner struct {
 // Provides a simple wrapper to initializing a PortScanner.
 func NewPortScanner(ip string, limit uint64) *PortScanner {
 	return &PortScanner{
-		ip:   "127.0.0.1",
+		ip: ip,
 		lock: semaphore.NewWeighted(int64(limit)),
 	}
 }
@@ -48,17 +48,20 @@ func checkPortOpen(ip string, port int, timeout time.Duration) {
 	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%d", ip, port), timeout)
 
 	if err != nil {
-		if strings.Contains(err.Error(), "socket") {
-			fmt.Println(port, "timeout")
+		if strings.Contains(err.Error(), "timeout") {
+			fmt.Println(port, "timeout", err.Error())
+		} else if strings.Contains(err.Error(), "deadline exceeded") {
+			fmt.Println(port, "timeout", err.Error())
+		} else if strings.Contains(err.Error(), "refused") {
+			// fmt.Println(port, "closed", err.Error())
 		} else {
-			fmt.Println(port, "closed")
+			panic(err)
 		}
 		return
 	}
 
-	conn.Close()
-
 	fmt.Println(port, "open")
+	conn.Close()
 }
 
 // This function is the bread and butter of this script. It manages the

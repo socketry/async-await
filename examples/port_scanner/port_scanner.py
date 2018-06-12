@@ -18,7 +18,8 @@ class PortScanner:
                 print("{} open".format(port))
                 writer.close()
             except ConnectionRefusedError:
-                print("{} closed".format(port))
+                pass
+                # print("{} closed".format(port))
             except asyncio.TimeoutError:
                 print("{} timeout".format(port))
 
@@ -30,6 +31,6 @@ class PortScanner:
 limits = resource.getrlimit(resource.RLIMIT_NOFILE)
 batch_size = min(512, limits[0])
 
-scanner = PortScanner(ports=range(1, 65536), batch_size=batch_size)
+scanner = PortScanner(host="0.0.0.0", ports=range(1, 65535+1), batch_size=batch_size)
 
 scanner.start()

@@ -4,6 +4,8 @@ require 'async/io'
 require 'async/semaphore'
 require_relative '../../lib/async/await'
 
+require 'async/clock'
+
 class PortScanner
   include Async::Await
   include Async::IO
@@ -15,14 +17,14 @@ class PortScanner
   end
 
   def scan_port(port, timeout)
-    timeout(timeout) do 
-      Async::IO::Endpoint.tcp(@host, port).connect do |peer|
-        puts "#{port} open"
-        peer.close
-      end
+    timeout(timeout) do
+      address = Async::IO::Address.tcp(@host, port)
+      peer = Socket.connect(address)
+      puts "#{port} open"
+      peer.close
     end
   rescue Errno::ECONNREFUSED
-    puts "#{port} closed"
+    # puts "#{port} closed"
   rescue Async::TimeoutError
     puts "#{port} timeout"
   end
@@ -39,6 +41,6 @@ end
 limits = Process.getrlimit(Process::RLIMIT_NOFILE)
 batch_size = [512, limits.first].min
 
-scanner = PortScanner.new(ports: (1...65536), batch_size: batch_size)
+scanner = PortScanner.new(host: "0.0.0.0", ports: Range.new(1, 65535), batch_size: batch_size)
 
 scanner.start

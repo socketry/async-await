@@ -4,8 +4,6 @@ require 'async/io'
 require 'async/semaphore'
 require_relative '../../lib/async/await'
 
-require 'async/clock'
-
 class PortScanner
   include Async::Await
   include Async::IO
@@ -41,6 +39,6 @@ end
 limits = Process.getrlimit(Process::RLIMIT_NOFILE)
 batch_size = [512, limits.first].min
 
-scanner = PortScanner.new(host: "0.0.0.0", ports: Range.new(1, 65535), batch_size: batch_size)
+scanner = PortScanner.new(host: "127.0.0.1", ports: Range.new(1, 65535), batch_size: batch_size)
 
 scanner.start

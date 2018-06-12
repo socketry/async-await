@@ -31,6 +31,6 @@ class PortScanner:
 limits = resource.getrlimit(resource.RLIMIT_NOFILE)
 batch_size = min(512, limits[0])
 
-scanner = PortScanner(host="0.0.0.0", ports=range(1, 65535+1), batch_size=batch_size)
+scanner = PortScanner(host="127.0.0.1", ports=range(1, 65535+1), batch_size=batch_size)
 
 scanner.start()

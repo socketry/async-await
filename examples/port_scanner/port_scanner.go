@@ -100,7 +100,7 @@ func main() {
 	batch_size := FileLimit(512)
 	
 	// Create a new PortScanner for localhost.
-	ps := NewPortScanner("0.0.0.0", batch_size)
+	ps := NewPortScanner("127.0.0.1", batch_size)
 
 	// Start scanning all the ports on localhost.
 	ps.Start(1, 65535, 1000*time.Millisecond)

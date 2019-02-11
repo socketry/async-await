@@ -29,7 +29,7 @@ module Async
 				Async::Task.current
 			end
 
-			def_delegators :task, :timeout, :sleep, :async
+			def_delegators :task, :with_timeout, :sleep, :async
 
 			def await(&block)
 				block.call.wait

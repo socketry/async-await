@@ -15,7 +15,7 @@ class PortScanner
   end
 
   def scan_port(port, timeout)
-    timeout(timeout) do
+    with_timeout(timeout) do
       address = Async::IO::Address.tcp(@host, port)
       peer = Socket.connect(address)
       puts "#{port} open"

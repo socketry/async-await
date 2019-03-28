@@ -37,7 +37,7 @@ class PortScanner
 end
 
 limits = Process.getrlimit(Process::RLIMIT_NOFILE)
-batch_size = [512, limits.first].min
+batch_size = [512, (limits.first * 0.9).ceil].min
 
 scanner = PortScanner.new(host: "127.0.0.1", ports: Range.new(1, 65535), batch_size: batch_size)
 

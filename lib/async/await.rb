@@ -28,6 +28,22 @@ module Async
 			klass.extend(self)
 		end
 		
+		def sync(name)
+			original_method = instance_method(name)
+			
+			remove_method(name)
+			
+			define_method(name) do |*args|
+				if task = Task.current?
+					original_method.bind(self).call(*args)
+				else
+					Async::Reactor.run do
+						original_method.bind(self).call(*args)
+					end.wait
+				end
+			end
+		end
+		
 		def async(name)
 			original_method = instance_method(name)
 			

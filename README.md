@@ -1,34 +1,20 @@
 # Async::Await
 
-Implements the async/await pattern for Ruby using [async].
+Implements the async/await pattern for Ruby using [async](https://github.com/socketry/async).
 
-[![Build Status](https://secure.travis-ci.org/socketry/async-await.svg)](http://travis-ci.org/socketry/async-await)
-[![Code Climate](https://codeclimate.com/github/socketry/async-await.svg)](https://codeclimate.com/github/socketry/async-await)
-[![Coverage Status](https://coveralls.io/repos/socketry/async-await/badge.svg)](https://coveralls.io/r/socketry/async-await)
-
-[async]: https://github.com/socketry/async
+[![Development Status](https://github.com/socketry/async-await/workflows/Development/badge.svg)](https://github.com/socketry/async-await/actions?workflow=Development)
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'async-await'
+``` shell
+bundle add async-await
 ```
-
-And then execute:
-
-	$ bundle
-
-Or install it yourself as:
-
-	$ gem install async-await
 
 ## Usage
 
 In any asynchronous context (e.g. a reactor), simply use the `await` function like so:
 
-```ruby
+``` ruby
 require 'async/await'
 
 class Coop
@@ -58,17 +44,17 @@ coop.count_all_chickens
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1.  Fork it
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create new Pull Request
 
 ## See Also
 
-- [async-io](https://github.com/socketry/async-io) — Asynchronous networking and sockets.
-- [async-dns](https://github.com/socketry/async-dns) — Asynchronous DNS resolver and server.
-- [async-rspec](https://github.com/socketry/async-rspec) — Shared contexts for running async specs.
+  - [async-io](https://github.com/socketry/async-io) — Asynchronous networking and sockets.
+  - [async-dns](https://github.com/socketry/async-dns) — Asynchronous DNS resolver and server.
+  - [async-rspec](https://github.com/socketry/async-rspec) — Shared contexts for running async specs.
 
 ## License
 

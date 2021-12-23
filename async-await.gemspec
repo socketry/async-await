@@ -1,28 +1,23 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 require_relative "lib/async/await/version"
 
 Gem::Specification.new do |spec|
-	spec.name          = "async-await"
-	spec.version       = Async::Await::VERSION
-	spec.authors       = ["Samuel Williams"]
-	spec.email         = ["samuel.williams@oriontransfer.co.nz"]
-
-	spec.summary       = "Implements the async/await pattern on top of async :)"
-	spec.homepage      = "https://github.com/socketry/async-await"
-
-	spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-		f.match(%r{^(test|spec|features)/})
-	end
+	spec.name = "async-await"
+	spec.version = Async::Await::VERSION
 	
-	spec.require_paths = ["lib"]
+	spec.summary = "Implements the async/await pattern on top of async :)"
+	spec.authors = ["Samuel Williams"]
+	spec.license = "MIT"
 	
-	spec.add_dependency "async", "~> 1.3"
-	spec.add_development_dependency "async-rspec", "~> 1.1"
+	spec.homepage = "https://github.com/socketry/async-await"
 	
+	spec.files = Dir.glob('{lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	
+	spec.add_dependency "async"
 	spec.add_dependency "ruby2_keywords"
 	
+	spec.add_development_dependency "async-rspec", "~> 1.1"
 	spec.add_development_dependency "covered"
-	spec.add_development_dependency "bundler"
-	spec.add_development_dependency "rake", "~> 10.0"
 	spec.add_development_dependency "rspec", "~> 3.0"
 end

@@ -22,17 +22,17 @@ module Async
 	module Await
 		module Enumerable
 			def async_map(parent: Task.current, &block)
-				self.map do |*args|
+				self.map do |*arguments|
 					parent.async do
-						yield *args
+						yield(*arguments)
 					end
 				end.map(&:wait)
 			end
 			
 			def async_each(parent: Task.current, &block)
-				self.each do |*args|
+				self.each do |*arguments|
 					parent.async do
-						yield *args
+						yield(*arguments)
 					end
 				end
 				

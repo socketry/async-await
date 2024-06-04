@@ -4,12 +4,10 @@
 # Copyright, 2017-2024, by Samuel Williams.
 
 require_relative 'await/version'
-require_relative 'await/methods'
 
 module Async
 	module Await
 		def self.included(klass)
-			klass.include(Methods)
 			klass.extend(self)
 		end
 		
@@ -27,8 +25,6 @@ module Async
 					end.wait
 				end
 			end
-			
-			ruby2_keywords(name)
 		end
 		
 		def async(name)

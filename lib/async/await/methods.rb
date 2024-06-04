@@ -20,6 +20,8 @@
 
 require 'async/reactor'
 
+require 'forwardable'
+
 module Async
 	module Await
 		module Methods

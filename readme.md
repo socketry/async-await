@@ -59,9 +59,3 @@ This project uses the [Developer Certificate of Origin](https://developercertifi
 ### Contributor Covenant
 
 This project is governed by the [Contributor Covenant](https://www.contributor-covenant.org/). All contributors and participants agree to abide by its terms.
-
-## See Also
-
-  - [async-io](https://github.com/socketry/async-io) — Asynchronous networking and sockets.
-  - [async-dns](https://github.com/socketry/async-dns) — Asynchronous DNS resolver and server.
-  - [async-rspec](https://github.com/socketry/async-rspec) — Shared contexts for running async specs.

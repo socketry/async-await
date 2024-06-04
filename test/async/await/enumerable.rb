@@ -1,4 +1,4 @@
-# Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,20 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'async/await'
+require 'async/await/enumerable'
 
-RSpec.describe Async::Await do
-	include Async::Await
-	
-	async def find_chicken(*areas)
-		sleep(rand)
+describe Async::Await::Enumerable do
+	it "should map values" do
+		result = [1, 2, 3].async_map do |value|
+			value * 2
+		end
 		
-		return areas.sample
-	end
-	
-	it "should find some chickens" do
-		result = find_chicken("house").wait
-		
-		expect(result).to be == "house"
+		expect(result).to be == [2, 4, 6]
 	end
 end

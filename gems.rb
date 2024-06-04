@@ -7,6 +7,7 @@ group :maintenance, optional: true do
 	gem "bake-gem"
 end
 
-group :development do
-	gem 'async-io', '~> 1.4'
+group :test do
+	gem "sus"
+	gem "covered"
 end

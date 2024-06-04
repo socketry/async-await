@@ -18,21 +18,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'async'
+
 module Async
 	module Await
 		module Enumerable
-			def async_map(parent: Task.current, &block)
-				self.map do |*arguments|
-					parent.async do
-						yield(*arguments)
-					end
-				end.map(&:wait)
+			def async_map(parent: nil, &block)
+				Sync do |task|
+					parent ||= task
+					
+					self.map do |*arguments|
+						parent.async do
+							yield(*arguments)
+						end
+					end.map(&:wait)
+				end
 			end
 			
-			def async_each(parent: Task.current, &block)
-				self.each do |*arguments|
-					parent.async do
-						yield(*arguments)
+			def async_each(parent: nil, &block)
+				Sync do |task|
+					parent ||= task
+					
+					self.each do |*arguments|
+						parent.async do
+							yield(*arguments)
+						end
 					end
 				end
 				
@@ -42,10 +52,4 @@ module Async
 	end
 end
 
-# ::Enumerable.include(Async::Await::Enumerable)
-# https://bugs.ruby-lang.org/issues/9573
-module Enumerable
-	Async::Await::Enumerable.instance_methods.each do |name|
-		self.define_method(name, Async::Await::Enumerable.instance_method(name))
-	end
-end
+::Enumerable.include(Async::Await::Enumerable)

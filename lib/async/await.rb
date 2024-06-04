@@ -21,8 +21,6 @@
 require_relative 'await/version'
 require_relative 'await/methods'
 
-require 'ruby2_keywords'
-
 module Async
 	module Await
 		def self.included(klass)
@@ -58,8 +56,6 @@ module Async
 					original_method.bind(self).call(*arguments, &block)
 				end
 			end
-			
-			ruby2_keywords(name)
 		end
 	end
 end

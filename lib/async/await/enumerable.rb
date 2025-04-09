@@ -13,7 +13,7 @@ module Async
 					parent ||= task
 					
 					self.map do |*arguments|
-						parent.async do
+						parent.async(finished: false) do
 							yield(*arguments)
 						end
 					end.map(&:wait)

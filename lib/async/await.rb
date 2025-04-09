@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2017-2024, by Samuel Williams.
+# Copyright, 2017-2025, by Samuel Williams.
 
-require_relative 'await/version'
+require_relative "await/version"
 
 module Async
 	module Await

@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright, 2017-2024, by Samuel Williams.  
+Copyright, 2017-2025, by Samuel Williams.  
 Copyright, 2018, by Kent 'picat' Gruber.  
 Copyright, 2020, by Olle Jonsson.  
 

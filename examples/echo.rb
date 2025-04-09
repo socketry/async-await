@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2018-2024, by Samuel Williams.
+# Copyright, 2018-2025, by Samuel Williams.
 
-require_relative '../lib/async/await'
+require_relative "../lib/async/await"
 
-require 'async/io'
-require 'async/io/tcp_socket'
+require "async/io"
+require "async/io/tcp_socket"
 
-require 'pry'
+require "pry"
 
 class Echo
 	include Async::Await

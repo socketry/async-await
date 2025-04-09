@@ -14,6 +14,14 @@ describe Async::Await::Enumerable do
 			
 			expect(result).to be == [2, 4, 6]
 		end
+		
+		it "should fail if the block fails" do
+			expect do
+				[1, 2, 3].async_map do |value|
+					raise "Fake error!"
+				end
+			end.to raise_exception(RuntimeError, message: be == "Fake error!")
+		end
 	end
 	
 	with '#async_each' do

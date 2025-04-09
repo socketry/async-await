@@ -4,43 +4,11 @@ Implements the async/await pattern for Ruby using [async](https://github.com/soc
 
 [![Development Status](https://github.com/socketry/async-await/workflows/Test/badge.svg)](https://github.com/socketry/async-await/actions?workflow=Test)
 
-## Installation
-
-``` shell
-bundle add async-await
-```
-
 ## Usage
 
-In any asynchronous context (e.g. a reactor), simply use the `await` function like so:
+Please see the [project documentation](https://socketry.github.io/async-await/) for more details.
 
-``` ruby
-require 'async/await'
-
-class Coop
-	include Async::Await
-	
-	async def count_chickens(area_name)
-		3.times do |i|
-			sleep rand
-			
-			puts "Found a chicken in the #{area_name}!"
-		end
-	end
-
-	async def count_all_chickens
-		# These methods all run at the same time.
-		count_chickens("garden")
-		count_chickens("house")
-		
-		# We wait for the result
-		count_chickens("tree").wait
-	end
-end
-
-coop = Coop.new
-coop.count_all_chickens
-```
+  - [Getting Started](https://socketry.github.io/async-await/guides/getting-started/index) - This guide explains how to use `async-await` for implementing some common concurrency patterns.
 
 ## Contributing
 

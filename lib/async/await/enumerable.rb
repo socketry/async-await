@@ -7,7 +7,12 @@ require "async"
 
 module Async
 	module Await
+		# Provide asynchronous methods for enumerables.
 		module Enumerable
+			# This method is used to map the elements of an enumerable collection asynchronously.
+			#
+			# @parameter parent [Interface(:async)] The parent to use for creating new tasks.
+			# @yields {|item| ...} The block to execute for each element in the collection.
 			def async_map(parent: nil, &block)
 				Sync do |task|
 					parent ||= task
@@ -20,6 +25,11 @@ module Async
 				end
 			end
 			
+			# This method is used to iterate over the elements of an enumerable collection asynchronously.
+			#
+			# @parameter parent [Interface(:async)] The parent to use for creating new tasks.
+			# @yields {|item| ...} The block to execute for each element in the collection.
+			# @return [self] The original enumerable collection.
 			def async_each(parent: nil, &block)
 				Sync do |task|
 					parent ||= task
